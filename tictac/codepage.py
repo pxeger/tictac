@@ -34,6 +34,7 @@ codepage_map = {c: i for i, c in enumerate(codepage)}
 
 if __name__ == "__main__":
     # print markdown table of codepage
+    print("# Codepage")
     codepage2 = [{
         "`": "<code>&#96;</code>",
         "|": "<code>&#124;</code>",
