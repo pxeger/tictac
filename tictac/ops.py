@@ -40,6 +40,8 @@ simple_ops = {
 
 
 ops_taking_links = {
+    # if
+    "𝕚": (1, lambda f: (1, lambda i: i and f())),
     # sort
     "𝕤": (1, lambda f: (1, lambda i: List(sorted(i, key=f)))),
     # filter
