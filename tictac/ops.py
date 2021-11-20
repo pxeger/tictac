@@ -35,6 +35,7 @@ simple_ops = {
     "R": (1, List.wrap(reversed)),
     "S": (1, sum),
     "Z": (2, List.wrap(zip)),
+    "𝕜h": (0, lambda: "Hello, World!"),
 }
 
 

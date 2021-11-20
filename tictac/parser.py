@@ -2,7 +2,7 @@ from tictac.codepage import codepage_map
 from tictac.ops import ops_taking_links
 
 
-digraph_introducers = frozenset("")
+digraph_introducers = frozenset("𝕜")
 digits = frozenset("0123456789")
 
 
