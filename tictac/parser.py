@@ -18,7 +18,7 @@ class _Lexer:
     def step(self, char):
         match char:
             case "\"":
-                yield from self.string_literal(char)
+                yield from self.string_literal()
             case char if char in digits:
                 yield from self.number_literal(char)
             case char if char in digraph_introducers:
@@ -44,6 +44,7 @@ class _Lexer:
 
     def string_literal(self):
         value = ""
+        char = None
         for char in self.it:
             if char == "\"":
                 break
@@ -52,8 +53,11 @@ class _Lexer:
             else:
                 raise SyntaxError("unimplemented string literal command {char}")
             # TODO: string escape
+        else:
+            char = None
         yield "literal", value
-        yield from self.step(char)
+        if char is not None:
+            yield from self.step(char)
 
     def number_literal(self, char):
         value = int(char)
@@ -68,6 +72,8 @@ class _Lexer:
                     value += int(char)
                 else:
                     break
+            else:
+                char = None
             yield "literal", value
             if char is not None:
                 yield from self.step(char)
