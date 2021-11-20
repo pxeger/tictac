@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "tictac"
+version = "0.0.1"
+description = "tactica assault golfing language"
+authors = ["Patrick Reader <_@pxeger.com>"]
+license = "Artistic License 2.0"
+
+[tool.poetry.scripts]
+tictac = 'tictac.cli:main'
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sympy = "^1.9"
+libgolf = "^0.0.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+black = {version = "^21.12b0", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

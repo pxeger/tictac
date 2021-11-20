@@ -1,0 +1,15 @@
+# credit to Vyxal for pioneering the "putting docs in a YAML file" approach
+
+- op: '+'
+  types: [int, int]
+  summary: add two numbers
+  keywords: [sum, addition, total, plus]
+  categories: [arithmetic]
+
+- op: '+'
+  types: [list, list]
+  summary: concatenate two lists
+  details: |
+    return `a + b`
+  keywords: [concatenation, sequence]
+  categories: [list]
