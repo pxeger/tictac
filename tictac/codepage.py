@@ -2,7 +2,7 @@ codepage = ""
 # (note: these characters are often detected as the wrong width by terminals;
 # extra spaces have been inserted to improve their legibility)
 codepage += "🯰🯱🯲🯳🯴🯵🯶🯷🯸🯹          ".replace(" ", "")
-codepage += "\n"
+codepage += "◊"
 codepage += "⓵⓶⓷⓸⓹⓺⓻⓼⓽⓾            ".replace(" ", "")
 codepage += "«»⊢⊣◉⟬⟭⟦⟧     ".replace(" ", "")
 codepage += "𝕒𝕓  ".replace(" ", "")
@@ -35,7 +35,6 @@ codepage_map = {c: i for i, c in enumerate(codepage)}
 if __name__ == "__main__":
     # print markdown table of codepage
     codepage2 = [{
-        "\n": "NL",
         "`": "<code>&#96;</code>",
         "|": "<code>&#124;</code>",
     }.get(c, f"`{c}`") for c in codepage]
@@ -46,5 +45,5 @@ if __name__ == "__main__":
         print(f"**{n}_** | " + " | ".join(f"{c}" for c in codepage2[i*16:i*16+16]))
     print()
     print("```")
-    print(codepage.replace("\n", "\N{SYMBOL FOR NEWLINE}"))
+    print(codepage)
     print("```")

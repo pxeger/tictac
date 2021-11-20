@@ -36,7 +36,7 @@ class _Lexer:
             # and they are not treated as invalid characters for convenience
             case "§":
                 self.comment()
-            case " ":
+            case " " | "\n":
                 # NOP
                 pass
             case char:
