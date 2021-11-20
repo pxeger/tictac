@@ -4,7 +4,7 @@ codepage = ""
 codepage += "🯰🯱🯲🯳🯴🯵🯶🯷🯸🯹          ".replace(" ", "")
 codepage += "◊"
 codepage += "⓵⓶⓷⓸⓹⓺⓻⓼⓽⓾            ".replace(" ", "")
-codepage += "«»⊢⊣◉⫯⫰⟦⟧     ".replace(" ", "")
+codepage += "«»⊢⊣⊙⫯⫰⟦⟧     ".replace(" ", "")
 codepage += "𝕒𝕓  ".replace(" ", "")
 assert len(codepage) == 32, f"{len(codepage)} != 32"
 # ASCII
