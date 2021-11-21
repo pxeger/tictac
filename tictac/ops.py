@@ -4,6 +4,11 @@ from functools import reduce
 from tictac.utils import *
 
 
+constants = {
+    "h": "Hello, World!",
+}
+
+
 simple_ops = {
     # op: arity, function
     # change arity to ~arity to enable multi-output mode
@@ -35,7 +40,7 @@ simple_ops = {
     "R": (1, List.wrap(reversed)),
     "S": (1, sum),
     "Z": (2, List.wrap(zip)),
-    "𝕜h": (0, lambda: "Hello, World!"),
+    **{"𝕜" + k: (0, lambda: v) for k, v in constants.items()},
 }
 
 
