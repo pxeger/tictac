@@ -28,8 +28,8 @@ A number literal is either `0`, or a non-zero digit (`1`-`9`) followed by one or
 12   -> one literal with the value 12
 ```
 
-A string literal starts with `"` and ends with a matching `"` or at the end of the file. All ASCII characters (other
-than `"`) in between are included in the content of the string; non-ASCII characters are not allowed.
+A string literal starts with `«` and ends with a matching `»` or at the end of the file. All ASCII characters in between
+are included in the content of the string; any other non-ASCII characters are not allowed.
 
 Literals correspond to operations that return constant values.
 

@@ -17,7 +17,7 @@ class _Lexer:
 
     def step(self, char):
         match char:
-            case "\"":
+            case "«":
                 yield from self.string_literal()
             case char if char in digits:
                 yield from self.number_literal(char)
@@ -44,20 +44,15 @@ class _Lexer:
 
     def string_literal(self):
         value = ""
-        char = None
         for char in self.it:
-            if char == "\"":
+            if char == "»":
                 break
             elif char.isascii():
                 value += char
             else:
                 raise SyntaxError("unimplemented string literal command {char}")
             # TODO: string escape
-        else:
-            char = None
         yield "literal", value
-        if char is not None:
-            yield from self.step(char)
 
     def number_literal(self, char):
         value = int(char)
