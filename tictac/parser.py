@@ -17,6 +17,13 @@ class _Lexer:
 
     def step(self, char):
         match char:
+            # note that space, newline, and § are not actually in the codepage, but provide some useful syntax for
+            # non-golfing and they are not treated as invalid characters for convenience
+            case "§":
+                self.comment()
+            case " " | "\n":
+                # NOP
+                pass
             case "«":
                 yield from self.string_literal()
             case char if char in digits:
@@ -32,13 +39,6 @@ class _Lexer:
                     yield "⓾"
             case char if char in codepage_map:
                 yield char
-            # note that space and § are not actually in the codepage, but provide some useful syntax for non-golfing
-            # and they are not treated as invalid characters for convenience
-            case "§":
-                self.comment()
-            case " " | "\n":
-                # NOP
-                pass
             case char:
                 raise SyntaxError("invalid character {char}")
 
@@ -81,28 +81,25 @@ class _Lexer:
         yield from self.step(char)
 
 
-def parse(code: str):
+def _parse(tokens, *, root):
     link = []
-    groups = []
-    for op in _Lexer(code).lex():
-        if op == "⟦":
-            groups.append(link)
-            link = []
+    for op in tokens:
+        if op == "»":
+            if root:
+                # TODO(pxeger): what should this do?
+                raise SyntaxError("» in main link is undefined behaviour")
+            else:
+                return link
         elif op in ops_taking_links:
-            arg_links = []
             n_links, _ = ops_taking_links[op]
-            for _ in range(n_links):
-                if groups:
-                    # grouped op
-                    arg_links.append(link)
-                    # restore previous group as current link
-                    link = groups.pop()
-                else:
-                    # no group: take entire link
-                    arg_links.append(link)
-                    link = []
-            link.append((op, *arg_links))
+            link_args = [_parse(tokens, root=False) for _ in range(n_links)]
+            link.append((op, *link_args))
         else:
             # general op
             link.append(op)
     return link
+
+
+def parse(code: str):
+    tokens = _Lexer(code).lex()
+    return _parse(tokens, root=True)
