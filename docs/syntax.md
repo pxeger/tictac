@@ -21,6 +21,9 @@ A digraph is two characters which are part of the same token; this syntax is use
 single-byte instruction. The first character of a digraph must currently be `𝕜` (other characters will be introduced in
 future), and the second character can be anything other than whitespace.
 
+The single-byte shortcut `⓾` refers to the most recently used digraph (lexically, not at runtime), in case you want to
+use it more than once.
+
 A number literal is either `0`, or a non-zero digit (`1`-`9`) followed by one or more digits (`0`-`9`). For example:
 
 ```
