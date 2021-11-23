@@ -42,13 +42,5 @@ into the sequence of operations `x, y, z`.
 
 Most operations just represent builtin functions, but some operations need to operate on a list of other operations,
 such as a map. These are called *operations taking links*, or *link-ops* for short. Conventionally, link-ops use the
-double-struck letters in Tictac's codepage (`𝕒` to `𝕫`).
-
-By default, a link-op consumes all code to its left (up to the start of the source code). However, if there is a `⟦`
-character to its left, it stops there and consumes all code until it. For example, `xyz𝕞` results in `𝕞(x, y, z)`, but
-`x⟦yz𝕞` produces `x, 𝕞(y, z)`
-
-Link-ops can be thought of as postfix operators on other bits of code: `x𝕞𝕗` results in `𝕗(𝕞(x))`. (the `()`s here
-aren't really function application, but just show which bits of code are inside the other bits of code.)
-
-Some link-ops need more than one link - in this case, the process is simply repeated multiple times.
+double-struck letters in Tictac's codepage (`𝕒` to `𝕫`). Link-ops open links implicitly, which can then be closed with
+`»`. If they aren't closed at the end of the file, they will be implicitly.
