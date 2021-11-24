@@ -9,55 +9,67 @@ constants = {
 }
 
 
-simple_ops = {
-    # op: arity, function
-    # change arity to ~arity to enable multi-output mode
-    ",": (2, lambda a, b: [a, b]),
-    "+": (2, lambda a, b: a + b),
-    "-": (2, lambda a, b: a - b),
-    "*": (2, lambda a, b: a * b),
-    "/": (2, lambda a, b: a / b),
-    "%": (2, lambda a, b: a % b),
-    "^": (2, lambda a, b: a ** b),
-    "¬": (1, lambda a: not a),
-    "&": (2, lambda a, b: a and b),
-    "|": (2, lambda a, b: a or b),
-    "<": (2, lambda a, b: a < b),
-    ">": (2, lambda a, b: a > b),
-    "=": (2, lambda a, b: a == b),
-    "~": (~2, lambda a, b: (b, a)),  # swap
-    "a": (1, lambda a: a[0]),  # first
-    "h": (1, lambda a: a[:-1]),  # head
-    "i": (2, lambda a, b: a[b]),
-    "r": (2, List.wrap(range)),
-    "t": (1, lambda a: a[1:]),  # tail
-    "w": (1, lambda a: a[-1]),  # last
-    "F": (1, lambda a: math.gamma(a + 1)),  # factorial
-    "L": (1, len),
-    "O": (1, lambda a: ord(a) if isinstance(a, str) else chr(a)),
-    "P": (1, lambda a: print(a) or a),
-    "Q": (1, unique),
-    "R": (1, List.wrap(reversed)),
-    "S": (1, sum),
-    "Z": (2, List.wrap(zip)),
-    **{"𝕜" + k: (0, lambda: v) for k, v in constants.items()},
+def simple_op(arity, func, multi_output=False):
+    def inner(interpreter):
+        args = []
+        for _ in range(arity):
+            args.append((yield interpreter.demand_pop))
+        res = func(*args)
+        if multi_output:
+            for i in res:
+                interpreter.push(i)
+        else:
+            interpreter.push(res)
+    return inner
+
+
+ops = {
+    ",": simple_op(2, lambda a, b: [a, b]),
+    "+": simple_op(2, lambda a, b: a + b),
+    "-": simple_op(2, lambda a, b: a - b),
+    "*": simple_op(2, lambda a, b: a * b),
+    "/": simple_op(2, lambda a, b: a / b),
+    "%": simple_op(2, lambda a, b: a % b),
+    "^": simple_op(2, lambda a, b: a ** b),
+    "¬": simple_op(1, lambda a: not a),
+    "&": simple_op(2, lambda a, b: a and b),
+    "|": simple_op(2, lambda a, b: a or b),
+    "<": simple_op(2, lambda a, b: a < b),
+    ">": simple_op(2, lambda a, b: a > b),
+    "=": simple_op(2, lambda a, b: a == b),
+    "~": simple_op(2, lambda a, b: (b, a), True),  # swap
+    "a": simple_op(1, lambda a: a[0]),  # first
+    "h": simple_op(1, lambda a: a[:-1]),  # head
+    "i": simple_op(2, lambda a, b: a[b]),
+    "r": simple_op(2, List.wrap(range)),
+    "t": simple_op(1, lambda a: a[1:]),  # tail
+    "w": simple_op(1, lambda a: a[-1]),  # last
+    "F": simple_op(1, lambda a: math.gamma(a + 1)),  # factorial
+    "L": simple_op(1, len),
+    "O": simple_op(1, lambda a: ord(a) if isinstance(a, str) else chr(a)),
+    "P": simple_op(1, lambda a: print(a) or a),
+    "Q": simple_op(1, unique),
+    "R": simple_op(1, List.wrap(reversed)),
+    "S": simple_op(1, sum),
+    "Z": simple_op(2, List.wrap(zip)),
+    **{"𝕜" + key: lambda i: i.push(value) for key, value in constants.items()},
 }
 
 
 ops_taking_links = {
     # if
-    "𝕚": (1, lambda f: (1, lambda i: i and f())),
+    "𝕚": (1, lambda f: simple_op(1, lambda i: i and f())),
     # sort
-    "𝕤": (1, lambda f: (1, lambda i: List(sorted(i, key=f)))),
+    "𝕤": (1, lambda f: simple_op(1, lambda i: List(sorted(i, key=f)))),
     # filter
-    "𝕗": (1, lambda f: (1, lambda i: List(filter(f, i)))),
+    "𝕗": (1, lambda f: simple_op(1, lambda i: List(filter(f, i)))),
     # reduce
-    "𝕣": (1, lambda f: (1, lambda i: List(reduce(f, i)))),
+    "𝕣": (1, lambda f: simple_op(1, lambda i: List(reduce(f, i)))),
     # map
-    "𝕞": (1, lambda f: (1, lambda i: List(map(f, i)))),
+    "𝕞": (1, lambda f: simple_op(1, lambda i: List(map(f, i)))),
     # zipwith
-    "𝕫": (1, lambda f: (2, lambda i, j: List(map(f, i, j)))),
+    "𝕫": (1, lambda f: simple_op(2, lambda i, j: List(map(f, i, j)))),
 }
 
 # check disjoint
-assert len(set(simple_ops) & set(ops_taking_links)) == 0
+assert len(set(ops) & set(ops_taking_links)) == 0
