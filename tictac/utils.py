@@ -84,7 +84,7 @@ class List:
             yield from self
 
     def loop(self):
-        return type(self)(self._loop())
+        return List(self._loop())
 
 
 def exhaust(i):
