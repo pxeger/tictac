@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 
 from tictac.parser import parse
 from tictac.interpreter import Interpreter
+from tictac.utils import convert
 
 
 def main():
@@ -16,7 +17,7 @@ def main():
         with open(args.program, "r") as f:
             code = f.read()
     link = parse(code)
-    inputs = (eval(arg) for arg in args.args)
+    inputs = (convert(eval(arg)) for arg in args.args)
     outputs = Interpreter(link).run(*inputs)
     for output in outputs:
         print(output)

@@ -1,6 +1,22 @@
 from functools import wraps
 from typing import final
 
+import sympy.core.numbers
+
+
+def convert(value):
+    """convert a generic Python object to tictac format"""
+    if isinstance(value, (str, List, sympy.Basic)):
+        # already supported
+        return value
+    elif isinstance(value, (tuple, list, set)):
+        return List(convert(i) for i in value)
+    elif isinstance(value, (int, float, complex)):
+        return sympy.sympify(value)
+    else:
+        # TODO(pxeger): bool, dict
+        raise TypeError(f"unsupported value {value!r}")
+
 
 def vectorise(arity, level):
     def decorator(func):
