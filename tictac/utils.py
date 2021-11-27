@@ -86,6 +86,99 @@ class List:
     def loop(self):
         return List(self._loop())
 
+    # comparison operators are always as lazy as possible
+
+    def __eq__(self, other):
+        # fast path
+        if self is other:
+            return True
+
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+
+        return all(x == y for x, y in zip(self, other)) and len(self) == len(other)
+
+    def __ne__(self, other):
+        # fast path
+        if self is other:
+            return False
+
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+
+        return any(x != y for x, y in zip(self, other)) or len(self) != len(other)
+
+    def __lt__(self, other):
+        # fast path
+        if self is other:
+            return False
+
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+
+        for x, y in zip(self, other):
+            if x < y:
+                return True
+            elif x > y:
+                return False
+        return len(self) < len(other)
+
+    def __le__(self, other):
+        # fast path
+        if self is other:
+            return True
+
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+
+        for x, y in zip(self, other):
+            if x < y:
+                return True
+            elif x > y:
+                return False
+        return len(self) <= len(other)
+
+    def __gt__(self, other):
+        # fast path
+        if self is other:
+            return False
+
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+        for x, y in zip(self, other):
+            if x > y:
+                return True
+            elif x < y:
+                return False
+        return len(self) > len(other)
+
+    def __ge__(self, other):
+        # fast path
+        if self is other:
+            return True
+
+        # slow path
+        try:
+            other = List(other)
+        except TypeError:
+            return NotImplemented
+        for x, y in zip(self, other):
+            if x > y:
+                return True
+            elif x < y:
+                return False
+        return len(self) >= len(other)
+
 
 def exhaust(i):
     """forcibly eagerly evaluate i"""
