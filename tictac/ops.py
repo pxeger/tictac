@@ -58,13 +58,13 @@ ops = {
 
 ops_taking_links = {
     # if
-    "𝕚": (1, lambda f: simple_op(1, lambda i: i and f())),
+    "𝕚": (1, lambda f: simple_op(1, lambda i: (f(),) if i else (), multi_output=True)),
     # sort
     "𝕤": (1, lambda f: simple_op(1, lambda i: List(sorted(i, key=f)))),
     # filter
     "𝕗": (1, lambda f: simple_op(1, lambda i: List(filter(f, i)))),
     # reduce
-    "𝕣": (1, lambda f: simple_op(1, lambda i: List(reduce(f, i)))),
+    "𝕣": (1, lambda f: simple_op(1, lambda i: reduce(f, i))),
     # map
     "𝕞": (1, lambda f: simple_op(1, lambda i: List(map(f, i)))),
     # zipwith
