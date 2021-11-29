@@ -1,5 +1,6 @@
 import math
 from functools import reduce
+from itertools import accumulate
 
 from tictac.utils import *
 
@@ -57,6 +58,8 @@ ops = {
 
 
 ops_taking_links = {
+    # scan / cumulative reduce
+    "𝕔": (1, lambda f: simple_op(1, lambda i: List(accumulate(i, f)))),
     # if
     "𝕚": (1, lambda f: simple_op(1, lambda i: (f(),) if i else (), multi_output=True)),
     # sort
