@@ -18,32 +18,6 @@ def convert(value):
         raise TypeError(f"unsupported value {value!r}")
 
 
-def vectorise(arity, level):
-    def decorator(func):
-        if arity == 0:
-            return func
-
-        @wraps(func)
-        def inner(*args):
-            match args:
-                case (List() as xs), (List() as ys):
-                    return List(func(x, y) for x, y in zip(xs, ys))
-                case (List() as xs), y:
-                    return List(func(x, y) for x in xs)
-                case x, (List() as ys):
-                    return List(func(x, y) for y in ys)
-                case x, y:
-                    return func(x, y)
-                case (List() as xs),:
-                    return List(func(x) for x in xs)
-                case x,:
-                    return func(x)
-                case ():
-                    return func()
-        return inner
-    return decorator
-
-
 @final
 class List:
     __match_args__ = ()
