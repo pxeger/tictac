@@ -220,3 +220,10 @@ def unique(items):
                 known.append(item)
 
         yield item
+
+
+def fixed_point(func, start):
+    value = func(start)
+    while value != start:
+        value = func(value)
+    return value
