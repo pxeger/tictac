@@ -1,0 +1,308 @@
+# credit to Vyxal for pioneering the "putting docs in a YAML file" approach
+
+# format:
+#   # if the op has multiple overloads with different behaviour, document them separately with the same `op` value
+# - op: 'A'  # or whatever the syntax is
+#   overload: [input, types]
+#   summary: *brief* human-readable summary of what it does (markdown)
+#   # details should include the input order if non-trivial
+#   details: |
+#     (optional): longer-form details of behaviour (markdown)
+#   # if two keywords are prefixes of each other, only the longer one is needed (e.g. `subtraction` already covers searches for `subtract`)
+#   # keywords should also include common symbols representing the operation even if they aren't the ones used for them in Tictac.
+#   keywords: [list, of, search, terms, that, relate, to, this, operation]
+#   # categories should be a subset of the fixed set of categories
+#   categories: [list, of, categories]
+#   # (optional) this should only be included when it's not obvious
+#   mnemonic: short description of how to remember that this does what it does
+
+- op: ','
+  overload: [any, any]
+  summary: pair two items into a length-2 list
+  details: |
+    Creates [TOS, TOS2]
+  keywords: [pair, binary, tuple, length, list, array, duplet, two, '2']
+  categories: [list]
+
+- op: '+'
+  overload: [num, num]
+  summary: add two numbers
+  keywords: [addition, sum, plus]
+  categories: [arithmetic]
+
+- op: '-'
+  overload: [num, num]
+  summary: subtract two numbers
+  details: |
+    TOS2 is subtracted from TOS
+  keywords: [subtraction, difference, minus]
+  categories: [arithmetic]
+
+- op: '*'
+  overload: [num, num]
+  summary: multiply two numbers
+  keywords: [multiply, multiplication, product, times]
+  categories: [arithmetic]
+
+- op: '/'
+  overload: [num, num]
+  summary: divide two numbers
+  details: |
+    TOS is divided by TOS2
+  keywords: [divide, division, over, quotient]
+  categories: [arithmetic]
+
+- op: '%'
+  overload: [num, num]
+  summary: modulo
+  details: |
+    TOS is divided by TOS2
+  keywords: [modulo, modulus, division, remainder]
+  categories: [arithmetic]
+
+- op: '^'
+  overload: [num, num]
+  summary: exponent
+  details: |
+    TOS is raised to the power TOS2
+  keywords: [exponent, raise, power, superscript, '**']
+  categories: [arithmetic]
+
+- op: '¬'
+  overload: [any]
+  summary: logical not
+  keywords: [not, logical, boolean, inverter, inverse, complement, '~', '!']
+  categories: [boolean]
+
+- op: '&'
+  overload: [any, any]
+  summary: logical and
+  details: |
+    If TOS is truthy, TOS2 is kept on the stack. Otherwise, TOS is kept and TOS2 is removed.
+  keywords: [and, logical, boolean, conjunction, '&&', '∧']
+  categories: [boolean]
+
+- op: '|'
+  overload: [any, any]
+  summary: logical or
+  details: |
+    If TOS is truthy, it is kept on the stack and TOS2 is removed. Otherwise, TOS is removed and TOS2 is kept.
+  keywords: [or, logical, boolean, disjunction, '||', '∨']
+  categories: [boolean]
+
+- op: '<'
+  overload: [any, any]
+  summary: less than
+  details: |
+    If TOS is less than TOS2, push `1`. Otherwise, push `0`.
+
+    - Real numbers are compared by value
+    - Complex numbers are compared lexicographically as if they were tuples `(real_part, imag_part)`
+    - Strings and lists are compared lexicographically.
+  keywords: [less, smaller, lower, earlier, lt]
+  categories: [comparison, boolean]
+
+- op: '>'
+  overload: [any, any]
+  summary: greater than
+  details: |
+    If TOS is less than TOS2, push `1`. Otherwise, push `0`. See `<` for docs on how comparisons work.
+  keywords: [more, greater, larger, bigger, higher, later, gt]
+  categories: [comparison, boolean]
+
+- op: '='
+  overload: [any, any]
+  summary: equals
+  details: |
+    This is strict comparison without type coersion.
+  keywords: [equals, identical, equivalent, '==']
+  categories: [comparison, boolean]
+
+- op: '~'
+  overload: [any, any]
+  summary: swap the top two items on the stack
+  keywords: [swap, rotate, two, '2']
+  categories: [stack_manipulation]
+
+- op: 'a'
+  overload: [list]
+  summary: first item of a list
+  keywords: [first, head, beginning, '1', '0']
+  categories: [list]
+  mnemonic: `a` is the **first** letter of the alphabet
+
+- op: 'w'
+  overload: [list]
+  summary: last item of a list
+  keywords: [last, tail, final, '-1']
+  categories: [list]
+  mnemonic: Omega (≈ Latin `w`) is the **last** letter of the Greek alphabet (as in "alpha to omega")
+
+- op: 't'
+  overload: [list]
+  summary: all but the first item of a list
+  keywords: [lasts, tail, rest, slice, '1', '2']
+  categories: [list]
+
+- op: 'h'
+  overload: [list]
+  summary: all but the last item of a list
+  keywords: [head, beginning, firsts]
+  categories: [list]
+
+- op: 'i'
+  overload: [num, list]
+  summary: list index
+  details: |
+    Get the TOS2'th item of TOS. Zero-indexed.
+
+    If TOS2 is out of the range of TOS's length, wrap it around (modular indexing).
+
+    If TOS2 is complex, get its modulus.
+
+    If TOS2 is not an integer, round it down.
+  keywords: [modular, indexing, getitem, subscript]
+  categories: [list]
+
+- op: 'r'
+  overload: [num]
+  summary: range
+  details: |
+    Return the range `[0..TOS)`.
+
+    If TOS is not an integer, behaviour is currently undefined.
+  keywords: [inclusive, exclusive]
+  categories: [number]
+
+- op: 'F'
+  overload: [num]
+  summary: factorial
+  details: |
+    Return the factorial of TOS.
+
+    Returns `1` when TOS = `0`
+
+    When TOS is not an integer, evaluates the Pi function.
+  keywords: [factorial, pi, product, gamma]
+  categories: [maths]
+
+- op: 'L'
+  overload: [list]
+  summary: length
+  details: |
+    Returns the length of TOS.
+  keywords: [size]
+  categories: [list]
+
+- op: 'O'
+  overload: [int]
+  summary: chr
+  details: |
+    Returns a length-1 string containing the character with codepoint TOS.
+  keywords: [character, codepoint]
+  categories: [string]
+
+- op: 'O'
+  overload: [str]
+  summary: ord
+  details: |
+    Returns the codepoint of the character in TOS.
+
+    TOS must be of length 1.
+  keywords: [character, codepoint]
+  categories: [string]
+
+- op: 'P'
+  overload: [any]
+  summary: print and return
+  details: |
+    Prints to STDOUT using default Python representation.
+  keywords: [print, stdout, output, write]
+  categories: [io, debugging]
+
+- op: 'Q'
+  overload: [list]
+  summary: unique
+  details: |
+    Returns a list of the elements in TOS, but every occurrence after an item's first is removed.
+  keywords: [nub, set, deduplicate, occurrence, duplicates]
+  categories: [list]
+
+- op: 'R'
+  overload: [list]
+  summary: reverse
+  keywords: [backwards, upend]
+  categories: [list]
+
+- op: 'S'
+  overload: [list]
+  summary: sum
+  keywords: [total, reduce, addition]
+  categories: [list, arithmetic]
+
+- op: 'Z'
+  overload: [list, list]
+  summary: zip
+  keywords: [transpose, unzip]
+  categories: [list]
+
+- op: '𝕜h'
+  summary: hello world
+  details: |
+    Return the string `Hello, World!` (with that capitalisation and punctuation)
+  keywords: []
+  categories: [constant, string]
+
+- op: '𝕔'
+  overload: [list]
+  links: [[[any], [any]]]
+  summary: scan
+  details: TODO: explain scan
+  keywords: [cumulative, reduce, accumulate]
+  categories: [link, list]
+
+- op: '𝕡'
+  overload: [any]
+  links: [[[any], [any]]]
+  summary: fixed-point
+  details: |
+    Starting with TOS, repeatedly apply the link until its return value is the same as the previous iteration's return value, and then return that.
+  keywords: [combinator, same, equal, until, loop, repeatedly, apply, unique]
+  categories: [link]
+
+- op: '𝕤'
+  overload: [list]
+  links: [[[any], [any]]]
+  summary: sort with key function
+  keywords: [ordering, grade, by, key, custom]
+  categories: [link, list]
+
+- op: '𝕗'
+  overload: [list]
+  links: [[[any], [any]]]
+  summary: filter
+  details:
+    Apply the link for each item in TOS; if it returns a truthy value, add that item to the resulting list; otherwise, skip it.
+  keywords: [filter, keep, predicate, conditional]
+  categories: [link, list]
+
+- op: '𝕣'
+  overload: [list]
+  links: [[[any, any], [any]]]
+  summary: reduce
+  keywords: [reduce, foldl, by]
+  categories: [link, list]
+
+- op: '𝕞'
+  overload: [list]
+  links: [[[any], [any]]]
+  summary: map
+  keywords: [each, collect]
+  categories: [link, list]
+
+- op: '𝕫'
+  overload: [list, list]
+  links: [[[any, any], [any]]]
+  summary: zip with
+  keywords: [zipwith2, vectorise, vectorize, map2]
+  categories: [link, list]
