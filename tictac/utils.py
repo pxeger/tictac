@@ -1,5 +1,6 @@
 from functools import wraps
 from typing import final
+import sys
 
 import sympy.core.numbers
 
@@ -204,3 +205,7 @@ def fixed_point(func, start):
             return new
         else:
             prev = new
+
+
+def print_stderr(*args, file=sys.stderr, **kwargs):
+    print(*args, **kwargs)

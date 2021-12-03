@@ -17,13 +17,16 @@ class _Lexer:
 
     def step(self, char):
         match char:
-            # note that space, newline, and § are not actually in the codepage, but provide some useful syntax for
+            # note that space, newline, § and ¿ are not actually in the codepage, but provide some useful syntax for
             # non-golfing and they are not treated as invalid characters for convenience
             case "§":
                 self.comment()
             case " " | "\n":
                 # NOP
                 pass
+            case "¿":
+                # breakpoint
+                yield "¿"
             case "«":
                 yield from self.string_literal()
             case char if char in digits:
