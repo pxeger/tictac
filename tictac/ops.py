@@ -60,8 +60,6 @@ ops = {
 ops_taking_links = {
     # scan / cumulative reduce
     "𝕔": (1, lambda f: simple_op(1, lambda i: List(accumulate(i, f)))),
-    # if
-    "𝕚": (1, lambda f: simple_op(1, lambda i: (f(),) if i else (), multi_output=True)),
     # fixed-point
     "𝕜": (1, lambda f: simple_op(1, lambda i: fixed_point(f, i))),
     # sort
