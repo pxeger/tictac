@@ -197,7 +197,10 @@ def unique(items):
 
 
 def fixed_point(func, start):
-    value = func(start)
-    while value != start:
-        value = func(value)
-    return value
+    prev = start
+    while True:
+        new = func(prev)
+        if new == prev:
+            return new
+        else:
+            prev = new
