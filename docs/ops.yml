@@ -306,3 +306,30 @@
   summary: zip with
   keywords: [zipwith2, vectorise, vectorize, map2]
   categories: [link, list]
+
+- op: '¿'
+  summary: breakpoint
+  details: |
+    Print some debugging information: for each stack frame, print the stack or the negative stack
+  keywords: [debugging, print, stack]
+  categories: [debugging]
+
+- op: ' '
+  summary: NOP
+  keywords: [space, ignored, whitespace, nothing]
+  categories: [debugging, syntax]
+
+- op: "\n"
+  summary: NOP
+  keywords: [line feed, ignored, newline, whitespace, nothing]
+  categories: [debugging, syntax]
+
+- op: '§'
+  summary: comment
+  details: |
+    Ignores everything until the end of the line (or end of file).
+
+    Note that the `§` character is not in the tictac codepage, as it is never expected to be used
+    in competitive golf.
+  keywords: [NOP, ignored, nothing, '#', '//']
+  categories: [debugging, syntax]
