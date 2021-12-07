@@ -6,6 +6,10 @@ from tictac.list import List
 
 
 def test_basic():
+    # no args = empty
+    l = List()
+    assert not list(l)
+
     l = List(range(10))
     assert list(l) == list(range(10))
 

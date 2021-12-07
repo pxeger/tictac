@@ -29,7 +29,7 @@ class List:
             return cls(func(*args, **kwargs))
         return inner
 
-    def __init__(self, i):
+    def __init__(self, i=()):
         self.cache = []
         self.finished = False
         self.it = iter(i)
