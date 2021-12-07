@@ -260,3 +260,12 @@ def test_unique():
     # ensure always takes the first instance of equal items
     assert List((a, b, a)).unique()[0] is a is not b
     assert List((b, a, a)).unique()[0] is b is not a
+
+
+def test_product():
+    assert List.product() == ((),)
+    assert List.product("abc") == "abc"
+    assert List.product("abc", "def") == ("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")
+    assert List.product(()) == ()
+    assert List.product("abc", ()) == ()
+    assert List.product("a", "b") == ("ab",)

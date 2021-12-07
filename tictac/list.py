@@ -338,3 +338,15 @@ class List:
                     known.append(item)
 
             yield item
+
+    @classmethod
+    def product(cls, *iterables):
+        def closure_hack(result, iterable):
+            # by defining result and iterable as parameters to an inner function, they won't be closed over
+            return ((*xs, y) for xs in result for y in iterable)
+
+        result = ((),)
+        for iterable in iterables:
+            result = cls(closure_hack(result, cls(iterable)))
+        # wrap each tuple in a List (or, well, a cls)
+        return cls(cls(t) for t in result)
