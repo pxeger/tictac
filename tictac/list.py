@@ -319,3 +319,22 @@ class List:
                         return 0
             else:
                 yield i
+
+    @_wrap
+    def unique(self):
+        known = []
+        # optimisation for hashable items
+        known_fast = set()
+        for item in self:
+            try:
+                if item in known_fast:
+                    continue
+                else:
+                    known_fast.add(item)
+            except TypeError:
+                if item in known:
+                    continue
+                else:
+                    known.append(item)
+
+            yield item

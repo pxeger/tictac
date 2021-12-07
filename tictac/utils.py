@@ -19,26 +19,6 @@ def convert(value):
         raise TypeError(f"unsupported value {value!r}")
 
 
-@List.wrap
-def unique(items):
-    known = []
-    # optimisation for hashable items
-    known_fast = set()
-    for item in items:
-        try:
-            if item in known_fast:
-                continue
-            else:
-                known_fast.add(item)
-        except TypeError:
-            if item in known:
-                continue
-            else:
-                known.append(item)
-
-        yield item
-
-
 def fixed_point(func, start):
     prev = start
     while True:

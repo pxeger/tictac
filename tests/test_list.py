@@ -241,3 +241,18 @@ def test_replace_instances():
 
     assert "".join(List(generator()).replace_instances("l", "y")[:4]) == "heyy"
     assert not generator_executed
+
+
+def test_unique():
+    assert List(()).unique() == ()
+    assert List("abc").unique() == "abc"
+    assert List("abcdabce").unique() == "abcde"
+    # unhashables
+    a = dict()
+    b = dict()
+    assert a is not b
+    assert a == b
+    assert List((a, b, a)).unique() == (a,)
+    # ensure always takes the first instance of equal items
+    assert List((a, b, a)).unique()[0] is a is not b
+    assert List((b, a, a)).unique()[0] is b is not a
