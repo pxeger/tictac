@@ -2,7 +2,8 @@ import math
 from functools import reduce
 from itertools import accumulate
 
-from tictac.utils import *
+from tictac.list import List
+from tictac.utils import fixed_point
 
 
 constants = {
@@ -49,7 +50,7 @@ ops = {
     "L": simple_op(1, len),
     "O": simple_op(1, lambda a: ord(a) if isinstance(a, str) else chr(a)),
     "P": simple_op(1, lambda a: print(a) or a),
-    "Q": simple_op(1, unique),
+    "Q": simple_op(1, lambda l: l.unique()),
     "R": simple_op(1, List.wrap(reversed)),
     "S": simple_op(1, sum),
     "Z": simple_op(2, List.wrap(zip)),
