@@ -280,3 +280,10 @@ def test_product():
 
     assert List.product(generator(), "def")[:9] == ("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")
     assert not generator_executed
+
+
+def test_power():
+    assert List("abc").power(2) == ("aa", "ab", "ac", "ba", "bb", "bc", "ca", "cb", "cc")
+    assert List("abc").power(1) == "abc"
+    assert List("abc").power(0) == ((),)
+    assert len(List("abc").power(5)) == len("abc") ** 5

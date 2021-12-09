@@ -350,3 +350,6 @@ class List:
             result = cls(closure_hack(result, cls(iterable)))
         # wrap each tuple in a List (or, well, a cls)
         return cls(cls(t) for t in result)
+
+    def power(self, power):
+        return self.product(*(self for _ in range(power)))
