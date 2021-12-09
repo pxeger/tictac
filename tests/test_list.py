@@ -269,3 +269,14 @@ def test_product():
     assert List.product(()) == ()
     assert List.product("abc", ()) == ()
     assert List.product("a", "b") == ("ab",)
+
+    # ensure lazy
+    generator_executed = False
+
+    def generator():
+        yield from "abc"
+        nonlocal generator_executed
+        generator_executed = True
+
+    assert List.product(generator(), "def")[:9] == ("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")
+    assert not generator_executed
