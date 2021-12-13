@@ -37,6 +37,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "libgolf"
+version = "0.0.1.post2"
+description = "Common utilities for implementing golfing language builtin libraries"
+category = "main"
+optional = false
+python-versions = ">=3.10,<4.0"
+
+[[package]]
 name = "mpmath"
 version = "1.2.1"
 description = "Python library for arbitrary-precision floating-point arithmetic"
@@ -133,7 +141,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "8dd92ef288f96341f0c32135d69fc77453034fa1ca00db84ac374c7ad652bfd6"
+content-hash = "980a670f0394903c7e3e96c57ea7af63e1f632d760a43bc82e0afe4fae10c4ee"
 
 [metadata.files]
 atomicwrites = [
@@ -151,6 +159,10 @@ colorama = [
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
+]
+libgolf = [
+    {file = "libgolf-0.0.1.post2-py3-none-any.whl", hash = "sha256:9f008eb23c483bc0120df4e99fc2f7f89ff302f833eaba169624de4ed9fae635"},
+    {file = "libgolf-0.0.1.post2.tar.gz", hash = "sha256:728618c5a6e57e6c6fd7204744fe6b66ae89031b46a2aa103cd6c6a3944c07ab"},
 ]
 mpmath = [
     {file = "mpmath-1.2.1-py3-none-any.whl", hash = "sha256:604bc21bd22d2322a177c73bdb573994ef76e62edd595d17e00aff24b0667e5c"},

@@ -2,7 +2,8 @@ import math
 from functools import reduce
 from itertools import accumulate
 
-from tictac.list import List
+from libgolf.list import List
+
 from tictac.utils import fixed_point
 
 

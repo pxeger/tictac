@@ -1,8 +1,7 @@
 import sys
 
+from libgolf.list import List
 import sympy.core.numbers
-
-from tictac.list import List
 
 
 def convert(value):

@@ -1,7 +1,9 @@
 import os
 
+from libgolf.list import List
+
 from tictac.ops import ops, ops_taking_links
-from tictac.utils import List, print_stderr
+from tictac.utils import print_stderr
 
 
 try:
