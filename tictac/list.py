@@ -1,4 +1,4 @@
-from itertools import islice, zip_longest
+import itertools
 import functools
 
 
@@ -66,7 +66,7 @@ class List:
         return len(self.cache)
 
     def length_compare_length(self, other):
-        for x, y in zip_longest(self, other, fillvalue=_fill):
+        for x, y in itertools.zip_longest(self, other, fillvalue=_fill):
             if x is _fill:
                 # self is shorter than other
                 return -1
@@ -123,7 +123,7 @@ class List:
             self.exhaust()
             return self.cache[s]
         else:
-            return islice(self, s.start, s.stop, s.step)
+            return itertools.islice(self, s.start, s.stop, s.step)
 
     # comparison operators are always as lazy as possible
 
@@ -169,7 +169,7 @@ class List:
         except TypeError:
             return NotImplemented
 
-        for x, y in zip_longest(self, other, fillvalue=_fill):
+        for x, y in itertools.zip_longest(self, other, fillvalue=_fill):
             if x is _fill:
                 # self is shorter than other
                 return True
@@ -193,7 +193,7 @@ class List:
         except TypeError:
             return NotImplemented
 
-        for x, y in zip_longest(self, other, fillvalue=_fill):
+        for x, y in itertools.zip_longest(self, other, fillvalue=_fill):
             if x is _fill:
                 # self is shorter than other
                 return True
@@ -217,7 +217,7 @@ class List:
         except TypeError:
             return NotImplemented
 
-        for x, y in zip_longest(self, other, fillvalue=_fill):
+        for x, y in itertools.zip_longest(self, other, fillvalue=_fill):
             if x is _fill:
                 # self is shorter than other
                 return False
@@ -241,7 +241,7 @@ class List:
         except TypeError:
             return NotImplemented
 
-        for x, y in zip_longest(self, other, fillvalue=_fill):
+        for x, y in itertools.zip_longest(self, other, fillvalue=_fill):
             if x is _fill:
                 # self is shorter than other
                 return False
