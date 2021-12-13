@@ -1,14 +1,17 @@
 import sys
 
 from libgolf.list import List
+from libgolf.string import String
 import sympy.core.numbers
 
 
 def convert(value):
     """convert a generic Python object to tictac format"""
-    if isinstance(value, (str, List, sympy.Basic)):
+    if isinstance(value, (List, sympy.Basic)):
         # already supported
         return value
+    elif isinstance(value, str):
+        return String(value)
     elif isinstance(value, (tuple, list, set)):
         return List(convert(i) for i in value)
     elif isinstance(value, (int, float, complex)):
