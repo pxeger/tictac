@@ -353,3 +353,21 @@ class List:
 
     def power(self, power):
         return self.product(*(self for _ in range(power)))
+
+    @_wrap
+    def combinations(self, size):
+        if size <= 0:
+            return
+        result = [None] * size
+        stack = [0]
+        while stack:
+            result_index = len(stack) - 1
+            input_index = stack.pop()
+            while self.length_compare_int(input_index) == 1:
+                result[result_index] = self[input_index]
+                result_index += 1
+                input_index += 1
+                stack.append(input_index)
+                if result_index == size:
+                    yield List(result)
+                    break

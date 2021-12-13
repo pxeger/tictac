@@ -287,3 +287,10 @@ def test_power():
     assert List("abc").power(1) == "abc"
     assert List("abc").power(0) == ((),)
     assert len(List("abc").power(5)) == len("abc") ** 5
+
+def test_combinations():
+    assert List("abc").combinations(0) == ()
+    assert List("abc").combinations(1) == ("a", "b", "c")
+    assert List("abc").combinations(2) == ("ab", "ac", "bc")
+    assert List("abc").combinations(3) == ("abc",)
+    assert List("abc").combinations(4) == ()
