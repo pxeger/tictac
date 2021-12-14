@@ -11,7 +11,7 @@ tictac = 'tictac.cli:main'
 [tool.poetry.dependencies]
 python = "^3.10"
 sympy = "^1.9"
-libgolf = "^0.0.1"
+libgolf = "^0.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
