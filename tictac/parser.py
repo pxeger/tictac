@@ -84,25 +84,26 @@ class _Lexer:
         yield from self.step(char)
 
 
-def _parse(tokens, *, root):
-    link = []
-    for op in tokens:
-        if op == "»":
-            if root:
-                # TODO(pxeger): what should this do?
-                raise SyntaxError("» in main link is undefined behaviour")
-            else:
-                return link
-        elif op in ops_taking_links:
-            n_links, _ = ops_taking_links[op]
-            link_args = [_parse(tokens, root=False) for _ in range(n_links)]
-            link.append((op, *link_args))
-        else:
-            # general op
-            link.append(op)
-    return link
-
-
 def parse(code: str):
     tokens = _Lexer(code).lex()
-    return _parse(tokens, root=True)
+    stack = []
+
+    for t in tokens:
+        match t:
+            case "🯰":
+                # recurse
+                stack.append(stack)
+            case "🯱":
+                # TODO(pxeger): what should 🯱 do?
+                raise NotImplementedError
+            case "🯲" | "🯳" | "🯴":
+                n = int(t)
+                stack[-n:] = [stack[-n:]]
+            case "»":
+                stack[:] = [stack[:]]
+            case op if op in ops_taking_links:
+                n_links, _ = ops_taking_links[op]
+                stack.append((op, *(stack.pop() for _ in range(n_links))))
+            case op:
+                stack.append(op)
+    return stack
