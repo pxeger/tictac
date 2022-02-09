@@ -66,12 +66,12 @@ ops_taking_links = {
     "𝕡": (1, lambda f: simple_op(1, lambda i: fixed_point(f, i))),
     # sort
     "𝕤": (1, lambda f: simple_op(1, lambda i: List(sorted(i, key=f)))),
-    # filter
-    "𝕗": (1, lambda f: simple_op(1, lambda i: List(filter(f, i)))),
     # reduce
     "𝕣": (1, lambda f: simple_op(1, lambda i: reduce(f, i))),
     # map
     "𝕞": (1, lambda f: simple_op(1, lambda i: List(map(f, i)))),
+    # filter (where)
+    "𝕨": (1, lambda f: simple_op(1, lambda i: List(filter(f, i)))),
     # zipwith
     "𝕫": (1, lambda f: simple_op(2, lambda i, j: List(map(f, i, j)))),
 }
