@@ -68,8 +68,10 @@ def _parse(it: Iterator, arity: int):
         elif token in {*"²³⁴"}:
             stack.append(_train([stack.pop() for _ in range(int(token))], 2))
         elif token == "(":
-            stack.append(_parse(it, 1))
+            stack.append(_parse(it, 0))
         elif token == "[":
+            stack.append(_parse(it, 1))
+        elif token == "{":
             stack.append(_parse(it, 2))
         elif token in MODIFIERS:
             MODIFIERS[token](stack, arity)
