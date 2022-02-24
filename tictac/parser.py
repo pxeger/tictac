@@ -2,7 +2,7 @@ from collections.abc import Iterator
 from typing import Callable
 
 from tictac.interpreter import State
-from tictac.ops import Op, OPS, MODIFIERS
+from tictac.ops import OpFunction, OPS, MODIFIERS
 from tictac.codepage import CODEPAGE_MAP
 
 
@@ -11,7 +11,7 @@ def _lex(code):
     return [token for char in it for token in _lex_one(it, char)]
 
 
-DIGRAPH_START = set()
+DIGRAPH_START = {*")]}"}
 
 
 def _lex_one(it, char):
@@ -40,7 +40,13 @@ def _lex_one(it, char):
     elif char.isspace():
         return
     elif char in DIGRAPH_START:
-        yield char + next(it, "")
+        char2 = next(it, "")
+        if char == ")" and char2 in {*"0123456789"}:
+            # )123 is equivalent to 123, but is a separate token
+            yield from _lex_one(it, char2)
+        else:
+            # digraph
+            yield char + char2
     elif char in CODEPAGE_MAP:
         yield char
     else:
@@ -48,43 +54,48 @@ def _lex_one(it, char):
 
 
 def parse(code: str, arity: int):
-    return _parse(iter(_lex(code)), arity)
+    arity2, function = _parse(iter(_lex(code)), arity)
+    assert arity == arity2
+    return function
 
 
-def _parse(it: Iterator, arity: int):
-    # no one-line pattern matching :/
-    def is_literal(token):
-        match token:
-            case "literal", value:
-                return value
-        return None
-
-    stack = []
-    for token in it:
-        if token == "¦":
-            break
-        elif token in {*"𝟚𝟛𝟜"}:
-            stack.append(_train([stack.pop() for _ in range(int(token))], 1))
-        elif token in {*"²³⁴"}:
-            stack.append(_train([stack.pop() for _ in range(int(token))], 2))
-        elif token == "(":
-            stack.append(_parse(it, 0))
-        elif token == "[":
-            stack.append(_parse(it, 1))
-        elif token == "{":
-            stack.append(_parse(it, 2))
-        elif token in MODIFIERS:
-            MODIFIERS[token](stack, arity)
-        elif token in OPS:
-            stack.append(OPS[token])
-        elif value := is_literal(token):
-            stack.append((0, lambda state: value))
-        else:
-            assert False
-    return _train(stack, arity)
+def _parse(it: Iterator, arity: int, *, length: int = -1):
+    links = []
+    while (link := _parse_one(it)) and length:
+        length -= 1
+        links.append(link)
+    return arity, _train(links, arity)
 
 
-_TRAINS: dict[int, dict[tuple[int, ...], Callable[[Op, ...], Op]]]
+MONAD_GROUPERS = {"𝟚": 2, "𝟛": 3, "𝟜": 4}
+DYAD_GROUPERS = {"²": 2, "³": 3, "⁴": 4}
+
+
+def _parse_one(it: Iterator):
+    match next(it, None):
+        case None | "¦":
+            return None
+        case "𝟚" | "𝟛" | "𝟜" as grouper:
+            return _parse(it, 1, length=MONAD_GROUPERS[grouper])
+        case "²" | "³" | "⁴" as grouper:
+            return _parse(it, 2, length=DYAD_GROUPERS[grouper])
+        case "(":
+            return _parse(it, 0)
+        case "[":
+            return _parse(it, 1)
+        case "{":
+            return _parse(it, 2)
+        case mod if mod in MODIFIERS:
+            return MODIFIERS[mod](lambda: _parse_one(it))
+        case op if op in OPS:
+            return OPS[op]
+        case "literal", value:
+            return (0, lambda state: value)
+        case unknown:
+            assert False, f"unexpected token {unknown}"
+
+
+_TRAINS: dict[int, dict[tuple[int, ...], Callable[[OpFunction, ...], OpFunction]]]
 _TRAINS = {
     1: {
         (2, 1): lambda c, f, g: lambda state, a: f(state, c(state, a), g(state, a)),
