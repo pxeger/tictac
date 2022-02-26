@@ -1,9 +1,10 @@
 from collections.abc import Iterator
 from typing import Callable
 
+from tictac.codepage import CODEPAGE_MAP
 from tictac.interpreter import State
 from tictac.ops import OpFunction, OPS, MODIFIERS
-from tictac.codepage import CODEPAGE_MAP
+from tictac.string import process_string
 
 
 def _lex(code):
@@ -29,11 +30,14 @@ def _lex_one(it, char):
         string = ""
         while True:
             char = next(it, "»")
+            if char == "∎":
+                # escape character
+                char += next(it, "")
             if char == "»":
                 break
             else:
                 string += char
-        yield "literal", string
+        yield "string", string
     elif char == "§":
         while char != "\n":
             char = next(it, "\n")
@@ -91,6 +95,8 @@ def _parse_one(it: Iterator):
             return OPS[op]
         case "literal", value:
             return (0, lambda state: value)
+        case "string", string:
+            return process_string(string)
         case unknown:
             assert False, f"unexpected token {unknown}"
 

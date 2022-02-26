@@ -8,12 +8,24 @@ A Tictac program is composed of tokens. These can be:
     - leading zeroes are counted as separate tokens; for example, `02` is the same as `0)2`
 - a string enclosed in `«` `»`, e.g. `«hello»`
     - if the string ends at the end of the program, the final `»` can be omitted
+    - see the [Strings](#strings) section for more details
 - whitespace is ignored
 - comments are ignored; they start with `§` and run until the end of the line
--GB
- **digraphs** are introduced by `)`, `]`, or `}`; for example, `]a` is a single token 
+- **digraphs** are introduced by `)`, `]`, or `}`; for example, `]a` is a single token
 - all other characters in [the codepage](codepage.md) are single tokens
 - all other characters *not* in [the codepage](codepage.md) are disallowed
+
+## Strings
+Generally, printable-ASCII strings will work exactly as you expect. However, the following characters are not in the
+codepage, so you may want to substitute them:
+- <code>&#96;</code> (backtick): replace with `°`
+- `\` (backslash): replace with `¦`
+- space: replace with `¬`
+- newline: replace with `⋄`
+
+These characters have the same byte values in the Tictac codepage as the ASCII characters they represent.
+
+The `∎` character can be used to escape the following character; this includes `»` and `∎` itself.
 
 ## Tacit programming
 *If you know Jelly, you can read the [Differences from Jelly](#differences-from-jelly) section instead.*
