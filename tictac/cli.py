@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from tictac.interpreter import interpret
+from tictac.interpreter import interpret, parse_input
 
 
 def main():
@@ -14,6 +14,6 @@ def main():
     else:
         with open(args.program, "r") as f:
             code = f.read()
-    inputs = (eval(a) for a in args.args)
+    inputs = (parse_input(a) for a in args.args)
     output = interpret(code, *inputs)
     print(output)
