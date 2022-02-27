@@ -1,15 +1,99 @@
 # credit to Vyxal for pioneering the "putting docs in a YAML file" approach
 
 - op: '+'
-  types: [int, int]
+  types: [num, num]
   summary: add two numbers
   keywords: [sum, addition, total, plus]
   categories: [arithmetic]
+  vectorise: true
 
-- op: '+'
-  types: [list, list]
-  summary: concatenate two lists
-  details: |
-    return `a + b`
-  keywords: [concatenation, sequence]
-  categories: [list]
+- op: '-'
+  types: [num, num]
+  summary: subtract two numbers
+  keywords: [difference, minus]
+  categories: [arithmetic]
+  vectorise: true
+
+- op: '*'
+  types: [num, num]
+  summary: multiply two numbers
+  keywords: [product, times, '×']
+  categories: [arithmetic]
+  vectorise: true
+
+- op: '÷'
+  types: [num, num]
+  summary: divide two numbers
+  keywords: [division, quotient, exact, 'true', '/']
+  categories: [arithmetic]
+  vectorise: true
+
+- op: ':'
+  types: [num, num]
+  summary: numeger division of `a` and `b` (rounds downwards)
+  keywords: [division, quotient, numeger, '/', '//']
+  categories: [arithmetic]
+  vectorise: true
+
+- op: '%'
+  types: [num, num]
+  summary: compute the `b`-modulo of `a` (this is always returns a nonnegative result)
+  keywords: [remainder, division, divide, modulus]
+  categories: [arithmetic]
+  vectorise: true
+
+- op: '^'
+  types: [num, num]
+  summary: raise `a` to the power `b`
+  keywords: [exponentiation, '**']
+  categories: [arithmetic]
+  vectorise: true
+
+- op: '&'
+  types: [any, any]
+  summary: logical AND of `a` and `b`
+  keywords: [conjunction, '∧', '&&']
+  categories: [boolean]
+  vectorise: false
+
+- op: '|'
+  types: [any, any]
+  summary: logical OR of `a` and `b`
+  keywords: [disjunction, '∨', '||']
+  categories: [boolean]
+  vectorise: false
+
+- op: '<'
+  types: [any, any]
+  summary: is `a` less than `b`?
+  keywords: [smaller]
+  categories: [boolean, comparison, test]
+  vectorise: false
+
+- op: '>'
+  types: [any, any]
+  summary: is `a` greater than `b`?
+  keywords: [larger, more]
+  categories: [boolean, comparison, test]
+  vectorise: false
+
+- op: '≈'
+  types: [any, any]
+  summary: is `a` equal to `b` (vectorises)
+  keywords: [equality, test, same, '==']
+  categories: [boolean, comparison]
+  vectorise: true
+
+- op: '='
+  types: [any, any]
+  summary: is `a` equal to `b` (does not vectorise)
+  keywords: [equality, test, same, '==']
+  categories: [arithmetic]
+  vectorise: false
+
+- op: '¬'
+  types: [any]
+  summary: logical NOT of `a`
+  keywords: [boolean, invert]
+  categories: [arithmetic]
+  vectorise: false
